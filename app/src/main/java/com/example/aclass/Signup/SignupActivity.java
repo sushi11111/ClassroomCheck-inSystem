@@ -105,11 +105,11 @@ public class SignupActivity extends AppCompatActivity
                 .build();
 
         SignupService signupService = retrofit.create(SignupService.class);
-
+        System.out.println("获取"+username+password+roleId);
         SignupRequest request = new SignupRequest(password, username, roleId);
 
         Call<SignupResponse> call = signupService.registerUser(request);
-
+        System.out.println("你看看:"+call);
         call.enqueue(new Callback<SignupResponse>() {
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {

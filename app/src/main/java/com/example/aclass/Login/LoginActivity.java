@@ -28,10 +28,6 @@ import com.example.aclass.Constants;
 import com.example.aclass.R;
 import com.example.aclass.Signup.SignupActivity;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity
         implements View.OnClickListener{

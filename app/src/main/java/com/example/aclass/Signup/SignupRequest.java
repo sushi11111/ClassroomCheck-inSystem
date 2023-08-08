@@ -12,7 +12,7 @@ public class SignupRequest {
     @SerializedName("userName")
     private String userName;
 
-    public SignupRequest(String password, String roleId, String userName) {
+    public SignupRequest(String password, String userName,String roleId) {
         this.password = password;
         this.roleId = roleId;
         this.userName = userName;
