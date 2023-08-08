@@ -1,8 +1,10 @@
 package com.example.aclass.Signup;
 
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class SignupResponse {
+public class SignupResponse  {
     @SerializedName("code")
     private int code;
 

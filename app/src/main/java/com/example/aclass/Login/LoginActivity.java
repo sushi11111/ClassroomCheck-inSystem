@@ -27,11 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.aclass.Constants;
 import com.example.aclass.R;
 import com.example.aclass.Signup.SignupActivity;
+import com.example.aclass.student.StudentMainActivity;
+import com.example.aclass.teacher.TeacherCheckInActivity;
+import com.example.aclass.teacher.TeacherMainActivity;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity
         implements View.OnClickListener{
@@ -150,7 +149,18 @@ public class LoginActivity extends AppCompatActivity
                                  if (loginResponse != null && loginResponse.getCode() == 200) {
                                      // 登录成功，处理逻辑
                                      System.out.println("登录成功");
-
+                                     //是老师
+                                     if(loginResponse.getUserData().getRoleId()==1){
+                                         Intent teacher_intent = new Intent();
+                                         teacher_intent.setClass(LoginActivity.this, TeacherMainActivity.class);
+                                         teacher_intent.putExtra("userData", loginResponse.getUserData());
+                                         startActivity(teacher_intent);
+                                     }else{
+                                         Intent student_intent = new Intent();
+                                         student_intent.setClass(LoginActivity.this, StudentMainActivity.class);
+                                         student_intent.putExtra("userData", loginResponse.getUserData());
+                                         startActivity(student_intent);
+                                     }
                                  } else {
                                      //弹出错误提示框
                                      showLoginFailedDialog();

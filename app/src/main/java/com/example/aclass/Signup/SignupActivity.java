@@ -1,6 +1,7 @@
 package com.example.aclass.Signup;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aclass.Constants;
@@ -118,9 +120,11 @@ public class SignupActivity extends AppCompatActivity
                     if (signupResponse != null && signupResponse.getCode() == 200) {
                         // 注册成功，处理逻辑
                         System.out.println("注册成功");
+                        showLoginSucceedDialog();
                     } else {
                         // 注册失败 处理逻辑 服务器内部错误？？
                         System.out.println("注册失败  "+signupResponse.getCode()+signupResponse.getMessage());
+                        showLoginFailedDialog();
                     }
                 } else {
                     // 请求失败，处理逻辑
@@ -136,6 +140,34 @@ public class SignupActivity extends AppCompatActivity
         });
     }
 
+
+    private void showLoginFailedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("注册失败")
+                .setMessage("用户名已被注册，请重试。")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击确定按钮后的逻辑，例如关闭对话框或其他操作
+                    }
+                })
+                .setCancelable(false) // 禁止点击对话框外部或返回键关闭对话框
+                .show();
+    }
+
+    private void showLoginSucceedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("注册成功")
+                .setMessage("您已成功注册，请返回登录")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 点击确定按钮后的逻辑，例如关闭对话框或其他操作
+                    }
+                })
+                .setCancelable(false) // 禁止点击对话框外部或返回键关闭对话框
+                .show();
+    }
 
 
     @Override

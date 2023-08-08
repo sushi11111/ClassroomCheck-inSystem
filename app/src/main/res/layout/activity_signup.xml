@@ -138,7 +138,7 @@
             android:text="注 册"
             android:textColor="@android:color/background_light"
             android:textSize="20dp"
-            android:backgroundTint="@color/gray"
+            android:backgroundTint="#E8645A"
             android:background="@drawable/btn_shape"
 
             android:layout_marginTop="40dp"
