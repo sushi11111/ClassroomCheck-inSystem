@@ -9,9 +9,9 @@ public interface SignupService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: 61ddfd666f2e46c98262920c77026d53",
+            "appSecret: 33375529044a0bfc94d7abfd682ef4eb9c942"
     })
-    @POST("member/sign/user/register")
+    @POST("/member/sign/user/register")
     Call<SignupResponse> registerUser(@Body SignupRequest request);
 }
