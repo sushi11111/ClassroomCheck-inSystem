@@ -111,7 +111,6 @@ public class SignupActivity extends AppCompatActivity
         SignupRequest request = new SignupRequest(password, username, roleId);
 
         Call<SignupResponse> call = signupService.registerUser(request);
-        System.out.println("你看看:"+call);
         call.enqueue(new Callback<SignupResponse>() {
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
