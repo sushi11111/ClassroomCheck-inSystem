@@ -25,12 +25,12 @@ public class AddClassRequest {
     private Long startTime;
 
     @SerializedName("userId")
-    private String userId;
+    private int userId;
 
     @SerializedName("userName")
     private String userName;
 
-    public AddClassRequest(String collegeName, String courseName, String coursePhoto, Long endTime, String introduce, String realName, Long startTime, String userId, String userName) {
+    public AddClassRequest(String collegeName, String courseName, String coursePhoto, Long endTime, String introduce, String realName, Long startTime, int userId, String userName) {
         this.collegeName = collegeName;
         this.courseName = courseName;
         this.coursePhoto = coursePhoto;
