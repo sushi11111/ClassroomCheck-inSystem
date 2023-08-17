@@ -23,7 +23,7 @@ public interface TeacherService {
             "appSecret: 33375529044a0bfc94d7abfd682ef4eb9c942"
     })
     @GET("/member/sign/course/all")
-    Call<GetClassListResponse> getClass (@Field("current") int current,@Field("size") int size);
+    Call<GetClassListResponse> getClass (@Query("current") int current, @Query("size") int size);
 
     @Headers({
             "Accept: application/json, text/plain, */*",
@@ -32,7 +32,7 @@ public interface TeacherService {
             "appSecret: 33375529044a0bfc94d7abfd682ef4eb9c942"
     })
     @DELETE("/member/sign/course/teacher")
-    Call<DeleteClassResponse> deleteClass (@Field("courseId") int courseId, @Field("userId") int userId);
+    Call<DeleteClassResponse> deleteClass (@Query("courseId") int courseId, @Query("userId") int userId);
 
     @Headers({
             "Accept: application/json, text/plain, */*",
@@ -41,7 +41,7 @@ public interface TeacherService {
             "appSecret: 33375529044a0bfc94d7abfd682ef4eb9c942"
     })
     @GET("/member/sign/course/teacher/unfinished")
-    Call<GetUnFinishClassResponse> getUnFinishClass (@Field("current") int current,@Field("size") int size, @Field("userId") int userId);
+    Call<GetUnFinishClassResponse> getUnFinishClass (@Query("current") int current, @Query("size") int size,  @Query("userId") int userId);
 
     @Headers({
             "Accept: application/json, text/plain, */*",
@@ -50,7 +50,7 @@ public interface TeacherService {
             "appSecret: 33375529044a0bfc94d7abfd682ef4eb9c942"
     })
     @GET("/member/sign/course/teacher/finished")
-    Call<GetFinishClassResponse> getFinishClass (@Field("current") int current,@Field("size") int size, @Field("userId") int userId);
+    Call<GetFinishClassResponse> getFinishClass (@Query("current") int current, @Query("size") int size, @Query("userId") int userId);
 
     @Headers({
             "Accept: application/json, text/plain, */*",
@@ -68,5 +68,5 @@ public interface TeacherService {
             "appSecret: 33375529044a0bfc94d7abfd682ef4eb9c942"
     })
     @GET("/member/sign/course/teacher/page")
-    Call<GetCheckDetailResponse> getCheckDetail (@Field("courseId") int courseId, @Field("userId") int userId);
+    Call<GetCheckDetailResponse> getCheckDetail (@Query("courseId") int courseId, @Query("userId") int userId);
 }

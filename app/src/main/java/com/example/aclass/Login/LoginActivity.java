@@ -28,7 +28,6 @@ import com.example.aclass.Constants;
 import com.example.aclass.R;
 import com.example.aclass.Signup.SignupActivity;
 import com.example.aclass.student.StudentMainActivity;
-import com.example.aclass.teacher.TeacherCheckInActivity;
 import com.example.aclass.teacher.TeacherMainActivity;
 
 
