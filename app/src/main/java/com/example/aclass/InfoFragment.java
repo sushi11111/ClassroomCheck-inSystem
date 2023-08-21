@@ -56,7 +56,7 @@ public class InfoFragment extends Fragment {
         // 获取传递的数据
         if (getArguments() != null) {
             LoginResponse.UserData userData = getArguments().getParcelable("userData");
-            System.out.println("InfoFragment11111已获得"+userData.getEmail());
+            System.out.println("InfoFragment已获得"+userData.getEmail());
             // 在布局中显示数据
             String avatarUrl = userData.getAvatar();
             Glide.with(this)
@@ -112,62 +112,5 @@ public class InfoFragment extends Fragment {
             }
         });
     }
-    private void finishCourse(int current ,int size ,int userId)
-    {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TeacherService teacherService = retrofit.create(TeacherService.class);
-        Call<GetFinishClassResponse> call = teacherService.getFinishClass(current, size, userId);
-        call.enqueue(new Callback<GetFinishClassResponse>(){
 
-            @Override
-            public void onResponse(Call<GetFinishClassResponse> call, Response<GetFinishClassResponse> response) {
-                if (response.isSuccessful()){
-                    GetFinishClassResponse getFinishClassResponse = response.body();
-                    if (getFinishClassResponse != null && getFinishClassResponse.getCode() == 200) {
-                        System.out.println("当前教师课程请求数据为："+getFinishClassResponse.getData());
-                    }
-                    else {
-                        System.out.println("错误码:"+getFinishClassResponse.getCode()+"原因:"+getFinishClassResponse.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetFinishClassResponse> call, Throwable t) {
-                System.out.println("请求失败：" + t.getMessage());
-            }
-        });
-    }
-    private void unFinishCourse(int current ,int size ,int userId)
-    {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TeacherService teacherService = retrofit.create(TeacherService.class);
-        Call<GetUnFinishClassResponse> call = teacherService.getUnFinishClass(current, size, userId);
-        call.enqueue(new Callback<GetUnFinishClassResponse>(){
-
-            @Override
-            public void onResponse(Call<GetUnFinishClassResponse> call, Response<GetUnFinishClassResponse> response) {
-                if (response.isSuccessful()){
-                    GetUnFinishClassResponse getUnFinishClassResponse = response.body();
-                    if (getUnFinishClassResponse != null && getUnFinishClassResponse.getCode() == 200) {
-                        System.out.println("当前教师课程请求数据为："+getUnFinishClassResponse.getData());
-                    }
-                    else {
-                        System.out.println("错误码:"+getUnFinishClassResponse.getCode()+"原因:"+getUnFinishClassResponse.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetUnFinishClassResponse> call, Throwable t) {
-                System.out.println("请求失败：" + t.getMessage());
-            }
-        });
-    }
 }
