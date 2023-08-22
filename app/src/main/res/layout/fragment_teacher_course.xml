@@ -6,5 +6,5 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/unFinishCourse"
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
+            android:layout_height="650dp"/>
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.aclass.teacher;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,13 @@ import com.example.aclass.Login.LoginResponse;
 import com.example.aclass.R;
 import com.example.aclass.teacher.response.GetFinishClassResponse;
 import com.example.aclass.teacher.response.GetUnFinishClassResponse;
-import com.example.aclass.teacher.vo.RecordAdapter;
-import com.google.gson.Gson;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.example.aclass.teacher.response.vo.RecordAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherCourseFragment extends Fragment {
@@ -36,18 +31,21 @@ public class TeacherCourseFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // 使用 inflater.inflate() 方法创建并返回一个有效的 View 对象
         View rootView = inflater.inflate(R.layout.fragment_teacher_course, container, false);
-        RecyclerView recyclerView = rootView.findViewById(R.id.unFinishCourse);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //展示教师未结算的课程
+        RecyclerView recyclerUnFinishCourse = rootView.findViewById(R.id.unFinishCourse);
+        recyclerUnFinishCourse.setLayoutManager(new LinearLayoutManager(getContext()));
 
         if (getArguments() != null) {
             LoginResponse.UserData userData = getArguments().getParcelable("userData");
             System.out.println("CourseFragment已获得"+userData.getEmail());
-            unFinishCourse(0,1,Integer.parseInt(userData.getId()),recyclerView);
+            unFinishCourse(0,10,Integer.parseInt(userData.getId()),recyclerUnFinishCourse,userData);
         }
         return rootView;
     }
@@ -68,6 +66,7 @@ public class TeacherCourseFragment extends Fragment {
                     GetFinishClassResponse getFinishClassResponse = response.body();
                     if (getFinishClassResponse != null && getFinishClassResponse.getCode() == 200) {
                         System.out.println("当前教师课程请求数据为："+getFinishClassResponse.getData().toString());
+
                     }
                     else {
                         System.out.println("错误码:"+getFinishClassResponse.getCode()+"原因:"+getFinishClassResponse.getMessage());
@@ -81,7 +80,7 @@ public class TeacherCourseFragment extends Fragment {
             }
         });
     }
-    private void unFinishCourse(int current ,int size ,int userId ,RecyclerView recyclerView)
+    private void unFinishCourse(int current ,int size ,int userId ,RecyclerView recyclerView,LoginResponse.UserData userData)
     {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -99,7 +98,10 @@ public class TeacherCourseFragment extends Fragment {
                         System.out.println("当前教师课程请求数据为："+getUnFinishClassResponse.getData());
                         GetUnFinishClassResponse.Data data = getUnFinishClassResponse.getData();
                         List<GetUnFinishClassResponse.Record> records = data.getRecords();
-                        RecordAdapter adapter = new RecordAdapter(records);
+                        for (GetUnFinishClassResponse.Record element : records) {
+                            System.out.println("课："+element);
+                        }
+                        RecordAdapter adapter = new RecordAdapter(records,userData);
                         recyclerView.setAdapter(adapter);
                     }
                     else {
