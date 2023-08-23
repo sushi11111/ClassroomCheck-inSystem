@@ -11,16 +11,13 @@ public class LoginResponse  {
     @SerializedName("code")
     private int code;
 
+
     @SerializedName("msg")
     private String message;
 
     @SerializedName("data")
     private UserData userData;
-
-
-
     static public class UserData implements Parcelable{
-
         protected UserData(Parcel in) {
             id = in.readString();
             appKey = in.readString();

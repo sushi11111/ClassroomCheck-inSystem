@@ -11,4 +11,5 @@
 
     <string name="login_remember_password">login_remember_password
     </string>
+    <string name="course_in">course_in</string>
 </resources>

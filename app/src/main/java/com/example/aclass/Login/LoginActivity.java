@@ -163,6 +163,7 @@ public class LoginActivity extends AppCompatActivity
                                  } else {
                                      //弹出错误提示框
                                      showLoginFailedDialog();
+
                                  }
                              } else {
                                  // 请求失败
