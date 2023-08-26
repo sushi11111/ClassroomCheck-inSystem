@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+    <TextView
+            android:id="@+id/stuId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学号"
+            android:textSize="16sp" />
+
+    <TextView
+            android:id="@+id/checkCourse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="签到课程"
+            android:textSize="16sp" />
+
+    <TextView
+            android:id="@+id/addrCourse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上课地点"
+            android:textSize="16sp" />
+
+    <TextView
+            android:id="@+id/checkStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否签到"
+            android:textSize="16sp" />
+
+    <TextView
+            android:id="@+id/checkTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="签到时间"
+            android:textSize="16sp" />
+
+    <TextView
+            android:id="@+id/createTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始时间"
+            android:textSize="16sp" />
+
+</LinearLayout>

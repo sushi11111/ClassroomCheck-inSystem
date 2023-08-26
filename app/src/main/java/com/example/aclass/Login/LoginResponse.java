@@ -11,7 +11,6 @@ public class LoginResponse  {
     @SerializedName("code")
     private int code;
 
-
     @SerializedName("msg")
     private String message;
 

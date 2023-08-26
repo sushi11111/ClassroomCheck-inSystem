@@ -2,10 +2,73 @@
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent">
-    <TextView
-            android:id="@+id/c"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="签到页面"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="签到页面" />
+
+        <EditText
+                android:id="@+id/checkTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/c"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:inputType="text"
+                android:hint="签到时间(分钟)"
+                android:maxLines="1" />
+
+        <EditText
+                android:id="@+id/classAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/checkTime"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:inputType="text"
+                android:hint="上课地点"
+                android:maxLines="1" />
+
+        <EditText
+                android:id="@+id/checkCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/classAddress"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:inputType="text"
+                android:hint="签到码"
+                android:maxLines="1" />
+
+        <EditText
+                android:id="@+id/stuNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/checkCode"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:inputType="text"
+                android:hint="选课人数"
+                android:maxLines="1" />
+
+        <Button
+                android:id="@+id/startCheckBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/stuNum"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:text="发起签到" />
+    </RelativeLayout>
 </LinearLayout >

@@ -1,10 +1,14 @@
 package com.example.aclass.teacher;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.aclass.Constants;
@@ -23,6 +27,8 @@ import java.util.List;
 
 public class TeacherCourseFragment extends Fragment {
 
+    Button addCourseBtn;
+    private FragmentManager fragmentManager;
 
     public static TeacherCourseFragment newInstance(LoginResponse.UserData userData) {
         TeacherCourseFragment fragment = new TeacherCourseFragment();
@@ -38,15 +44,31 @@ public class TeacherCourseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // 使用 inflater.inflate() 方法创建并返回一个有效的 View 对象
         View rootView = inflater.inflate(R.layout.fragment_teacher_course, container, false);
+        //fragment管理器设置
+        fragmentManager = getFragmentManager();
         //展示教师未结算的课程
         RecyclerView recyclerUnFinishCourse = rootView.findViewById(R.id.unFinishCourse);
         recyclerUnFinishCourse.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        //按钮赋值
+        addCourseBtn = rootView.findViewById(R.id.addCourseBtn);
+        System.out.println("进入");
         if (getArguments() != null) {
             LoginResponse.UserData userData = getArguments().getParcelable("userData");
             System.out.println("CourseFragment已获得"+userData.getEmail());
             unFinishCourse(0,10,Integer.parseInt(userData.getId()),recyclerUnFinishCourse,userData);
+            addCourseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 创建一个Intent对象，指定当前活动为上下文，目标活动为要跳转的活动类
+                    Intent intent = new Intent(v.getContext(), AddCourseActivity.class);
+                    // 添加需要传递的参数，例如：
+                    intent.putExtra("userData", userData);
+                    // 启动目标活动
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
+
         return rootView;
     }
 
@@ -101,7 +123,7 @@ public class TeacherCourseFragment extends Fragment {
                         for (GetUnFinishClassResponse.Record element : records) {
                             System.out.println("课："+element);
                         }
-                        RecordAdapter adapter = new RecordAdapter(records,userData);
+                        RecordAdapter adapter = new RecordAdapter(records,userData,fragmentManager);
                         recyclerView.setAdapter(adapter);
                     }
                     else {

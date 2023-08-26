@@ -9,6 +9,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.aclass.Constants;
@@ -30,11 +33,17 @@ import java.util.List;
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder>{
     private List<GetUnFinishClassResponse.Record> records;
     LoginResponse.UserData userData;
+    private FrameLayout fragmentContainer;
+    FragmentManager fragmentManager;
 
-    public RecordAdapter(List<GetUnFinishClassResponse.Record> records, LoginResponse.UserData userData) {
+    public RecordAdapter(List<GetUnFinishClassResponse.Record> records, LoginResponse.UserData userData, FragmentManager fragmentManager) {
         this.records = records;
         this.userData = userData;
+        this.fragmentManager = fragmentManager;
     }
+
+
+
 
     @NonNull
     @Override
@@ -96,12 +105,23 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             public void onClick(View v) {
                 // 创建一个Intent对象，指定当前活动为上下文，目标活动为要跳转的活动类
                 Intent intent = new Intent(v.getContext(), StartingCheckActivity.class);
-
                 // 添加需要传递的参数，例如：
-//                intent.putExtra("key", value);
-
+                intent.putExtra("userData", userData);
+                intent.putExtra("courseId", holder.courseId.getText());
+                intent.putExtra("courseName",holder.courseName.getText());
                 // 启动目标活动
                 v.getContext().startActivity(intent);
+            }
+        });
+        //签到详情按钮
+        holder.checkDetailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = TeacherCheckFragment.newInstance(userData,Integer.parseInt(holder.courseId.getText().toString())); // 传递数据给 OtherFragment
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.commit();
+                System.out.println("跳转签到详情...");
             }
         });
     }
@@ -118,6 +138,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         ImageView coursePhoto;
         Button deleteCourseBtn;
         Button startCheckBtn;
+        Button checkDetailBtn;
+        FrameLayout fragmentContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,6 +149,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             coursePhoto = itemView.findViewById(R.id.coursePhoto);
             deleteCourseBtn = itemView.findViewById(R.id.deleteCourseBtn);
             startCheckBtn = itemView.findViewById(R.id.startCheckBtn);
+            checkDetailBtn = itemView.findViewById(R.id.checkDetailBtn);
+            // 初始化 fragmentContainer
+            fragmentContainer = itemView.findViewById(R.id.fragment_container);
         }
 
     }

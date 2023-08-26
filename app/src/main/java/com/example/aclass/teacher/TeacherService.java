@@ -1,17 +1,20 @@
 package com.example.aclass.teacher;
 
+import com.example.aclass.Constants;
 import com.example.aclass.teacher.request.AddClassRequest;
 import com.example.aclass.teacher.request.CheckingRequest;
 import com.example.aclass.teacher.response.*;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.*;
+
 
 public interface TeacherService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
     })
     @POST("/member/sign/course/teacher")
     Call<AddClassResponse> addClass (@Body AddClassRequest request);
@@ -19,8 +22,8 @@ public interface TeacherService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
     })
     @GET("/member/sign/course/all")
     Call<GetClassListResponse> getClass (@Query("current") int current, @Query("size") int size);
@@ -28,8 +31,8 @@ public interface TeacherService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
     })
     @DELETE("/member/sign/course/teacher")
     Call<DeleteClassResponse> deleteClass (@Query("courseId") int courseId, @Query("userId") int userId);
@@ -37,8 +40,8 @@ public interface TeacherService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
     })
     @GET("/member/sign/course/teacher/unfinished")
     Call<GetUnFinishClassResponse> getUnFinishClass (@Query("current") int current, @Query("size") int size,  @Query("userId") int userId);
@@ -46,8 +49,8 @@ public interface TeacherService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
     })
     @GET("/member/sign/course/teacher/finished")
     Call<GetFinishClassResponse> getFinishClass (@Query("current") int current, @Query("size") int size, @Query("userId") int userId);
@@ -55,8 +58,8 @@ public interface TeacherService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
     })
     @POST("/member/sign/course/teacher/initiate")
     Call<CheckingResponse> startChecking (@Body CheckingRequest request);
@@ -64,9 +67,20 @@ public interface TeacherService {
     @Headers({
             "Accept: application/json, text/plain, */*",
             "Content-Type: application/json",
-            "appId: a3981d6f1cb7451e858fafe3b4e0bb7c",
-            "appSecret: 6002952ec1e29b6a047d29c00ac704ed0802f"
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
     })
     @GET("/member/sign/course/teacher/page")
     Call<GetCheckDetailResponse> getCheckDetail (@Query("courseId") int courseId, @Query("userId") int userId);
+
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "appId: " + Constants.APP_ID,
+            "appSecret: " + Constants.APP_SECRET,
+            "Content-Type: multipart/form-data"
+    })
+    @Multipart
+    @POST("/member/sign/image/upload")
+    Call<UploadImageResponse> uploadImage(@Part MultipartBody.Part image);
+
 }

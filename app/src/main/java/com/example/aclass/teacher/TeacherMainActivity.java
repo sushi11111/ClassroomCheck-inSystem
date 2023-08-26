@@ -38,10 +38,10 @@ public class TeacherMainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.menu_check_in:
-                        //fragment = InfoFragment.newInstance(userData); // 传递数据给 OtherFragment
+                        fragment = TeacherCheckFragment.newInstance(userData,0); // 传递数据给 OtherFragment
                         break;
                     case R.id.menu_courses:
-                        //fragment = InfoFragment.newInstance(userData); // 传递数据给 OtherFragment
+                        fragment = TeacherCourseFragment.newInstance(userData); // 传递数据给 OtherFragment
                         break;
                     case R.id.menu_guy:
                         fragment = InfoFragment.newInstance(userData); // 传递数据给 OtherFragment
