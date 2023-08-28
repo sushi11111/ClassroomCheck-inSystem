@@ -136,9 +136,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         TextView collegeName;
         TextView courseId;
         ImageView coursePhoto;
-        Button deleteCourseBtn;
-        Button startCheckBtn;
-        Button checkDetailBtn;
+        TextView deleteCourseBtn;
+        TextView startCheckBtn;
+        TextView checkDetailBtn;
         FrameLayout fragmentContainer;
 
         public ViewHolder(@NonNull View itemView) {
