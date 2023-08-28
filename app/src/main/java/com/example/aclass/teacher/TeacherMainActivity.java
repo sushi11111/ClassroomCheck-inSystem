@@ -51,7 +51,7 @@ public class TeacherMainActivity extends AppCompatActivity {
 
                 if (fragment != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.fragment_container, fragment);
+                    transaction.replace(R.id.fragment_container, fragment);
                     transaction.commit();
                     return true;
                 }

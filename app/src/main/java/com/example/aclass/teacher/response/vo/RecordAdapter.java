@@ -56,9 +56,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GetUnFinishClassResponse.Record record = records.get(position);
-        holder.courseName.setText(record.getCourseName());
-        holder.courseId.setText(record.getCourseId());
-        holder.collegeName.setText(record.getCollegeName());
+        holder.courseName.setText(holder.courseName.getText()+record.getCourseName());
+        holder.courseId.setText(holder.courseId.getText()+record.getCourseId());
+        holder.collegeName.setText(holder.collegeName.getText()+record.getCollegeName());
         // 使用Glide加载图片
         Glide.with(holder.coursePhoto.getContext())
                 .load(record.getCoursePhoto())

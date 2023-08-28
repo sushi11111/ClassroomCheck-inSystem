@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class TeacherCourseFragment extends Fragment {
 
-    Button addCourseBtn;
+    ImageView addCourseBtn;
     private FragmentManager fragmentManager;
 
     public static TeacherCourseFragment newInstance(LoginResponse.UserData userData) {
