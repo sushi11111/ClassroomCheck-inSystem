@@ -31,12 +31,36 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="课号: "
+                    android:textSize="16sp" />
+
         <TextView
                 android:id="@+id/courseId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="课号: "
                 android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="院校: "
+                    android:textSize="16sp" />
 
         <TextView
                 android:id="@+id/collegeName"
@@ -45,12 +69,27 @@
                 android:text="院校: "
                 android:textSize="16sp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="课程名: "
+                    android:textSize="16sp" />
+
         <TextView
                 android:id="@+id/courseName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="课程名: "
                 android:textSize="16sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
