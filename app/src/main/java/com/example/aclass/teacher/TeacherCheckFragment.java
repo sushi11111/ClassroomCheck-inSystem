@@ -20,6 +20,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherCheckFragment extends Fragment {
@@ -39,6 +40,11 @@ public class TeacherCheckFragment extends Fragment {
         //展示教师未结算的课程
         RecyclerView recyclerCheckDetail = rootView.findViewById(R.id.checkDetail);
         recyclerCheckDetail.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //
+        CheckDetailAdapter adapter = new CheckDetailAdapter(new ArrayList<>());
+        recyclerCheckDetail.setAdapter(adapter);
+
         if (getArguments() != null) {
             LoginResponse.UserData userData = getArguments().getParcelable("userData");
             int courseId = getArguments().getInt("courseId");

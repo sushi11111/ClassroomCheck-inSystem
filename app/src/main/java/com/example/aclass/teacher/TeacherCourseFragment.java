@@ -16,6 +16,7 @@ import com.example.aclass.Login.LoginResponse;
 import com.example.aclass.R;
 import com.example.aclass.teacher.response.GetFinishClassResponse;
 import com.example.aclass.teacher.response.GetUnFinishClassResponse;
+import com.example.aclass.teacher.response.vo.CheckDetailAdapter;
 import com.example.aclass.teacher.response.vo.RecordAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherCourseFragment extends Fragment {
@@ -49,6 +51,11 @@ public class TeacherCourseFragment extends Fragment {
         //展示教师未结算的课程
         RecyclerView recyclerUnFinishCourse = rootView.findViewById(R.id.unFinishCourse);
         recyclerUnFinishCourse.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //11
+        CheckDetailAdapter checkDetailAdapter = new CheckDetailAdapter(new ArrayList<>());
+        recyclerUnFinishCourse.setAdapter(checkDetailAdapter);
+
         //按钮赋值
         addCourseBtn = rootView.findViewById(R.id.addCourseBtn);
         System.out.println("进入");
