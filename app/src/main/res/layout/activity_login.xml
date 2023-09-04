@@ -115,7 +115,7 @@
             android:text="登 录"
             android:textColor="@android:color/background_light"
             android:textSize="20dp"
-            android:backgroundTint="#E8645A"
+            android:backgroundTint="#5AE8CC"
             android:background="@drawable/btn_shape"
 
             android:layout_marginTop="60dp"

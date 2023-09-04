@@ -22,6 +22,7 @@ import com.example.aclass.teacher.TeacherCheckFragment;
 import com.example.aclass.teacher.TeacherService;
 import com.example.aclass.teacher.response.DeleteClassResponse;
 import com.example.aclass.teacher.response.GetUnFinishClassResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,12 +35,14 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     private List<GetUnFinishClassResponse.Record> records;
     LoginResponse.UserData userData;
     private FrameLayout fragmentContainer;
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
+    private BottomNavigationView bottomNavigationView;
 
-    public RecordAdapter(List<GetUnFinishClassResponse.Record> records, LoginResponse.UserData userData, FragmentManager fragmentManager) {
+    public RecordAdapter(List<GetUnFinishClassResponse.Record> records, LoginResponse.UserData userData, FragmentManager fragmentManager,BottomNavigationView bottomNavigationView) {
         this.records = records;
         this.userData = userData;
         this.fragmentManager = fragmentManager;
+        this.bottomNavigationView = bottomNavigationView;
     }
 
 
@@ -121,11 +124,15 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         holder.checkDetailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //显示导航到签到页面
+                bottomNavigationView.setSelectedItemId(R.id.menu_check_in);
+
                 Fragment fragment = TeacherCheckFragment.newInstance(userData,Integer.parseInt(holder.courseId.getText().toString())); // 传递数据给 OtherFragment
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.commit();
                 System.out.println("跳转签到详情...");
+
             }
         });
     }

@@ -58,8 +58,8 @@ public class TeacherMainActivity extends AppCompatActivity {
                 return false;
             });
 
-            // 默认显示第一个选项的 Fragment
-            bottomNavigationView.setSelectedItemId(R.id.menu_check_in);
+            // 默认显示第二个选项的 Fragment
+            bottomNavigationView.setSelectedItemId(R.id.menu_courses);
         }
 
     }
