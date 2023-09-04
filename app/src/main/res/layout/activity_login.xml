@@ -35,15 +35,16 @@
         <EditText
             android:id="@+id/et_account"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginBottom="-2dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
             android:inputType="text"
-            android:hint=" 用户名"
+            android:hint="   用户名"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:background="@drawable/rounded_edittext_bg"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -58,15 +59,16 @@
         <EditText
             android:id="@+id/et_pwd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginBottom="-2dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
             android:inputType="textPassword"
-            android:hint=" 密码"
+            android:hint="   密码"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:background="@drawable/rounded_edittext_bg"/>
         <ImageView
             android:id="@+id/iv_pwd_switch"
             android:layout_width="24dp"
@@ -107,6 +109,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="46dp"
+        android:paddingRight="46dp"
         android:layout_weight="1"
         android:layout_marginBottom="32dp"
         >
@@ -115,14 +119,12 @@
             android:text="登 录"
             android:textColor="@android:color/background_light"
             android:textSize="20dp"
-            android:backgroundTint="#5AE8CC"
-            android:background="@drawable/btn_shape"
-
+            android:background="@drawable/button_rounded_bg"
             android:layout_marginTop="60dp"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
             android:layout_alignParentTop="true"
-            android:layout_width="match_parent"
+            android:layout_width="389dp"
             android:layout_height="wrap_content"
             />
     </RelativeLayout>
