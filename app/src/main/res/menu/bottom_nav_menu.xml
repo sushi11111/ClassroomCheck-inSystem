@@ -2,12 +2,15 @@
     >
     <item
     android:id="@+id/menu_check_in"
-    android:title="签到" />
+    android:title="签到"
+    android:icon="@drawable/menu_check_in"/>
     <item
         android:id="@+id/menu_courses"
         android:title="课程"
+        android:icon="@drawable/menu_course"
         />
     <item
         android:id="@+id/menu_guy"
-        android:title="我" />
+        android:title="我"
+        android:icon="@drawable/menu_me"/>
 </menu>
