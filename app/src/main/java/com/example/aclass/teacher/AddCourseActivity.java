@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -75,6 +76,17 @@ public class AddCourseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userData = intent.getParcelableExtra("userData");
         System.out.println("获得参数:"+userData);
+
+//        // 创建一个GradientDrawable对象，用于定义按钮的背景
+//        GradientDrawable gradientDrawable = new GradientDrawable();
+//
+//        // 设置圆角半径，这里使用50dp作为示例，您可以根据需要进行调整
+//        gradientDrawable.setCornerRadius(54);
+//
+//        // 将GradientDrawable对象设置为按钮的背景
+//        photoBtnAdd.setBackground(gradientDrawable);
+//        courseBtnAdd.setBackground(gradientDrawable);
+
 
         courseBtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

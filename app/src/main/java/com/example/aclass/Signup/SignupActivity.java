@@ -3,6 +3,7 @@ package com.example.aclass.Signup;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -74,6 +75,16 @@ public class SignupActivity extends AppCompatActivity
 
         //点击注册按钮 开始注册
         signup_btn = findViewById(R.id.bt_signup);
+
+        // 创建一个GradientDrawable对象，用于定义按钮的背景
+        GradientDrawable gradientDrawable = new GradientDrawable();
+
+        // 设置圆角半径，这里使用50dp作为示例，您可以根据需要进行调整
+        gradientDrawable.setCornerRadius(54);
+
+        // 将GradientDrawable对象设置为按钮的背景
+        signup_btn.setBackground(gradientDrawable);
+
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

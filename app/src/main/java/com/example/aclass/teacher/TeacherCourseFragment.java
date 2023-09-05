@@ -31,7 +31,7 @@ import java.util.List;
 
 public class TeacherCourseFragment extends Fragment {
 
-    ImageView addCourseBtn;
+    Button addCourseBtn;
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigationView;
 
@@ -63,6 +63,7 @@ public class TeacherCourseFragment extends Fragment {
 
         //按钮赋值
         addCourseBtn = rootView.findViewById(R.id.addCourseBtn);
+
         System.out.println("进入");
         if (getArguments() != null) {
             LoginResponse.UserData userData = getArguments().getParcelable("userData");

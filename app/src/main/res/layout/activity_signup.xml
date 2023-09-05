@@ -26,7 +26,7 @@
         android:layout_marginLeft="25dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="0dp"
         >
         <ImageView
             android:layout_width="32dp"
@@ -89,9 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="您是： "
-            android:textSize="14dp"
-            android:layout_marginLeft="82dp"
-            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="6dp"
             />
 
         <RadioGroup
@@ -105,7 +105,7 @@
                 android:id="@+id/btnStudent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
+                android:textSize="20dp"
                 android:text="学生"
                 android:buttonTint="@color/purple_700"
                 android:checked="true"/>
@@ -114,7 +114,7 @@
                 android:id="@+id/btnTeacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:text="老师"
                 android:buttonTint="@color/purple_700"/>
         </RadioGroup>
@@ -133,8 +133,8 @@
             android:layout_marginEnd="48dp"
             android:layout_marginBottom="1dp"
             android:text="回去登录"
-            android:textColor="#70f3ff"
-            android:textSize="16dp" />
+            android:textColor="#8d4bbb"
+            android:textSize="19dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -147,14 +147,14 @@
             android:id="@+id/bt_signup"
             android:text="注 册"
             android:textColor="@android:color/background_light"
-            android:textSize="20dp"
-            android:backgroundTint="#70f3ff"
+            android:textSize="25dp"
             android:background="@drawable/button_rounded_bg"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
             android:layout_alignParentTop="true"
-            android:layout_width="match_parent"
+            android:layout_width="220dp"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             />
     </RelativeLayout>

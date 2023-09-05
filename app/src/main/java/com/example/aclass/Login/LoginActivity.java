@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -61,6 +62,15 @@ public class LoginActivity extends AppCompatActivity
         Button btLogin = findViewById(R.id.bt_login);
         //登录按钮设置监听事件
         btLogin.setOnClickListener(this);
+
+        // 创建一个GradientDrawable对象，用于定义按钮的背景
+        GradientDrawable gradientDrawable = new GradientDrawable();
+
+        // 设置圆角半径，这里使用50dp作为示例，您可以根据需要进行调整
+        gradientDrawable.setCornerRadius(54);
+
+        // 将GradientDrawable对象设置为按钮的背景
+        btLogin.setBackground(gradientDrawable);
 
         //设置监听事件 是否显示密码
         ivPwdSwitch.setOnClickListener(new View.OnClickListener() {
