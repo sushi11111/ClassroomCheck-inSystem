@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="690dp"
+        android:layout_height="670dp"
         android:layout_weight="1" />
 
 
@@ -20,9 +20,8 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         app:menu="@menu/bottom_nav_menu"
-        android:layout_height="40dp"
-        app:itemTextColor="@color/white"
-        android:background="#8d4bbb"
+        android:layout_height="60dp"
+        android:background="#ffffff"
         android:theme="@style/bottom_tab_title_active"
         />
 
