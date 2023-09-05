@@ -19,6 +19,7 @@ import com.example.aclass.teacher.response.GetFinishClassResponse;
 import com.example.aclass.teacher.response.GetUnFinishClassResponse;
 import com.example.aclass.teacher.response.vo.CheckDetailAdapter;
 import com.example.aclass.teacher.response.vo.RecordAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +33,7 @@ public class TeacherCourseFragment extends Fragment {
 
     ImageView addCourseBtn;
     private FragmentManager fragmentManager;
+    private BottomNavigationView bottomNavigationView;
 
     public static TeacherCourseFragment newInstance(LoginResponse.UserData userData) {
         TeacherCourseFragment fragment = new TeacherCourseFragment();
@@ -47,6 +49,8 @@ public class TeacherCourseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // 使用 inflater.inflate() 方法创建并返回一个有效的 View 对象
         View rootView = inflater.inflate(R.layout.fragment_teacher_course, container, false);
+        //获得导航栏
+        bottomNavigationView = getActivity().findViewById(R.id.bottom_view);
         //fragment管理器设置
         fragmentManager = getFragmentManager();
         //展示教师未结算的课程
@@ -131,7 +135,7 @@ public class TeacherCourseFragment extends Fragment {
                         for (GetUnFinishClassResponse.Record element : records) {
                             System.out.println("课："+element);
                         }
-                        RecordAdapter adapter = new RecordAdapter(records,userData,fragmentManager);
+                        RecordAdapter adapter = new RecordAdapter(records,userData,fragmentManager,bottomNavigationView);
                         recyclerView.setAdapter(adapter);
                     }
                     else {
