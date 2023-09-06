@@ -6,6 +6,26 @@
               android:gravity="center_horizontal"
               android:padding="15dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/modify_info"
+            android:src="@drawable/modify"
+            />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:text="我要修改"/>
+
+    </LinearLayout>
+
     <ImageView
             android:id="@+id/avatar"
             android:layout_marginTop="0dp"
