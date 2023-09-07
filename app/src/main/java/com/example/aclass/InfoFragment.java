@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.aclass.Login.LoginResponse;
 import com.example.aclass.teacher.TeacherService;
 import com.example.aclass.teacher.response.GetClassListResponse;
@@ -61,12 +62,13 @@ public class InfoFragment extends Fragment {
             String avatarUrl = userData.getAvatar();
             Glide.with(this)
                     .load(avatarUrl)
+                    .apply(RequestOptions.circleCropTransform())
                     .into(avatar);
             userName.setText(userData.getUserName());
             if(userData.isGender()){
-                role.setText("男");
+                gender.setText("男");
             } else {
-                role.setText("女");
+                gender.setText("女");
             }
             realName.setText(userData.getRealName());
             idNumber.setText(userData.getIdNumber());
