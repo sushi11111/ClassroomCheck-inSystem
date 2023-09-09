@@ -2,6 +2,7 @@ package com.example.aclass.teacher;
 
 import com.example.aclass.Constants;
 import com.example.aclass.teacher.request.AddClassRequest;
+import com.example.aclass.teacher.request.ChangeUserRequest;
 import com.example.aclass.teacher.request.CheckingRequest;
 import com.example.aclass.teacher.response.*;
 import okhttp3.MultipartBody;
@@ -82,5 +83,14 @@ public interface TeacherService {
     @Multipart
     @POST("/member/sign/image/upload")
     Call<UploadImageResponse> uploadImage(@Part MultipartBody.Part image);
+
+    @Headers({
+            "Accept: application/json, text/plain, */*",
+            "Content-Type: application/json",
+            "appId: "+ Constants.APP_ID,
+            "appSecret: "+Constants.APP_SECRET
+    })
+    @POST("/member/sign/user/update")
+    Call<ChangeUserResponse> changeUser(@Body ChangeUserRequest changeUserRequest);
 
 }
