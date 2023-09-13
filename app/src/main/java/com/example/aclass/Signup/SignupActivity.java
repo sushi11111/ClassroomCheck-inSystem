@@ -80,7 +80,7 @@ public class SignupActivity extends AppCompatActivity
         GradientDrawable gradientDrawable = new GradientDrawable();
 
         // 设置圆角半径，这里使用50dp作为示例，您可以根据需要进行调整
-        gradientDrawable.setCornerRadius(54);
+        gradientDrawable.setCornerRadius(100);
 
         // 将GradientDrawable对象设置为按钮的背景
         signup_btn.setBackground(gradientDrawable);

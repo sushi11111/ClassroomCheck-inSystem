@@ -134,7 +134,7 @@
             android:layout_marginBottom="1dp"
             android:text="回去登录"
             android:textColor="#8d4bbb"
-            android:textSize="19dp" />
+            android:textSize="16dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -147,7 +147,7 @@
             android:id="@+id/bt_signup"
             android:text="注 册"
             android:textColor="@android:color/background_light"
-            android:textSize="25dp"
+            android:textSize="22dp"
             android:background="@drawable/button_rounded_bg"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"

@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,8 +26,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import androidx.core.view.ViewCompat;
 
 public class TeacherCheckFragment extends Fragment {
+
+    TextView blankTip;
+    View rootView;
+
     public static TeacherCheckFragment newInstance(LoginResponse.UserData userData,int courseId) {
         TeacherCheckFragment fragment = new TeacherCheckFragment();
         Bundle args = new Bundle();
@@ -36,7 +45,7 @@ public class TeacherCheckFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // 使用 inflater.inflate() 方法创建并返回一个有效的 View 对象
-        View rootView = inflater.inflate(R.layout.fragment_teacher_check, container, false);
+        rootView = inflater.inflate(R.layout.fragment_teacher_check, container, false);
         //展示教师未结算的课程
         RecyclerView recyclerCheckDetail = rootView.findViewById(R.id.checkDetail);
         recyclerCheckDetail.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -79,6 +88,10 @@ public class TeacherCheckFragment extends Fragment {
                     }
                     else {
                         System.out.println("错误码:"+getCheckDetailResponse.getCode()+"原因:"+getCheckDetailResponse.getMessage());
+                        blankTip = rootView.findViewById(R.id.blankTip);
+                        blankTip.setText("点击课程签到详情获取~");
+                        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) blankTip.getLayoutParams();
+                        layoutParams.topMargin=600;//设置顶部外边距marign为400像素
                     }
                 }
             }

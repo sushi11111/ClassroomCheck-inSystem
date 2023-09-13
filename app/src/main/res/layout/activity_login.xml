@@ -96,7 +96,7 @@
             android:textColor="#8d4bbb"
             android:layout_marginLeft="22dp"
             android:text="记住密码"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_marginBottom="4dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"/>
@@ -125,7 +125,7 @@
             android:id="@+id/bt_login"
             android:text="登 录"
             android:textColor="@android:color/background_light"
-            android:textSize="25dp"
+            android:textSize="22dp"
             android:layout_marginTop="45dp"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"

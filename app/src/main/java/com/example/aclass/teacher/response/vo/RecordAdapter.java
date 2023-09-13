@@ -1,6 +1,9 @@
 package com.example.aclass.teacher.response.vo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,6 +21,9 @@ import com.bumptech.glide.Glide;
 import com.example.aclass.Constants;
 import com.example.aclass.Login.LoginResponse;
 import com.example.aclass.R;
+import com.example.aclass.student.Courses.Course;
+import com.example.aclass.student.Courses.SelectService;
+import com.example.aclass.student.Courses.ShortResponse;
 import com.example.aclass.teacher.StartingCheckActivity;
 import com.example.aclass.teacher.TeacherCheckFragment;
 import com.example.aclass.teacher.TeacherService;
@@ -31,12 +38,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.List;
 
+
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder>{
     private List<GetUnFinishClassResponse.Record> records;
     LoginResponse.UserData userData;
     private FrameLayout fragmentContainer;
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigationView;
+    View itemView;
 
     public RecordAdapter(List<GetUnFinishClassResponse.Record> records, LoginResponse.UserData userData, FragmentManager fragmentManager,BottomNavigationView bottomNavigationView) {
         this.records = records;
@@ -52,8 +61,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate item layout
-        return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclerview_course_records, parent, false));
+        itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclerview_course_records, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
@@ -78,32 +88,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             @Override
             public void onClick(View v) {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Constants.BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                TeacherService teacherService = retrofit.create(TeacherService.class);
-                Call<DeleteClassResponse> call = teacherService.deleteClass(Integer.parseInt(holder.courseId.getText().toString()),Integer.parseInt(userData.getId()));
-                call.enqueue(new Callback<DeleteClassResponse>(){
-
-                    @Override
-                    public void onResponse(Call<DeleteClassResponse> call, Response<DeleteClassResponse> response) {
-                        if (response.isSuccessful()){
-                            DeleteClassResponse deleteClassResponse = response.body();
-                            if (deleteClassResponse != null && deleteClassResponse.getCode() == 200) {
-                                System.out.println("删除成功!："+deleteClassResponse.getData());
-                            }
-                            else {
-                                System.out.println("错误码:"+deleteClassResponse.getCode()+"原因:"+deleteClassResponse.getMessage());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<DeleteClassResponse> call, Throwable t) {
-                        System.out.println("请求失败：" + t.getMessage());
-                    }
-                });
+                dialogDelete(holder);
             }
         });
         //发起签到按钮
@@ -164,6 +149,75 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             // 初始化 fragmentContainer
             fragmentContainer = itemView.findViewById(R.id.fragment_container);
         }
+
+    }
+
+    private void dialogDelete(@NonNull ViewHolder holder) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(),R.style.DialogButtonStyle);
+        builder.setTitle("确认删除这门课吗？");
+        builder.setMessage("是否要选择删除：" + holder.courseName.getText() +" 这门课？");
+
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Constants.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                TeacherService teacherService = retrofit.create(TeacherService.class);
+                Call<DeleteClassResponse> call = teacherService.deleteClass(Integer.parseInt(holder.courseId.getText().toString()),Integer.parseInt(userData.getId()));
+                call.enqueue(new Callback<DeleteClassResponse>(){
+
+                    @Override
+                    public void onResponse(Call<DeleteClassResponse> call, Response<DeleteClassResponse> response) {
+                        if (response.isSuccessful()){
+                            DeleteClassResponse deleteClassResponse = response.body();
+                            if (deleteClassResponse != null && deleteClassResponse.getCode() == 200) {
+                                System.out.println("删除成功!："+deleteClassResponse.getData());
+                                for (int i = 0; i < records.size(); i++) {
+                                    if(records.get(i).getCourseId().equals(holder.courseId.getText().toString())){
+                                        records.remove(i);
+                                    }
+                                }
+                                notifyDataSetChanged();
+                            }
+                            else {
+                                System.out.println("错误码:"+deleteClassResponse.getCode()+"原因:"+deleteClassResponse.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DeleteClassResponse> call, Throwable t) {
+                        System.out.println("请求失败：" + t.getMessage());
+                    }
+                });
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.purple_500));
+                positiveButton.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), android.R.color.white));
+
+                Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                negativeButton.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.purple_500));
+                negativeButton.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), android.R.color.white));
+            }
+        });
+        dialog.show();
+
 
     }
 }

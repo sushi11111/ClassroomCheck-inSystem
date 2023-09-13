@@ -34,6 +34,7 @@ public class TeacherCourseFragment extends Fragment {
     Button addCourseBtn;
     private FragmentManager fragmentManager;
     private BottomNavigationView bottomNavigationView;
+    private LoginResponse.UserData userData;
 
     public static TeacherCourseFragment newInstance(LoginResponse.UserData userData) {
         TeacherCourseFragment fragment = new TeacherCourseFragment();
@@ -66,7 +67,7 @@ public class TeacherCourseFragment extends Fragment {
 
         System.out.println("进入");
         if (getArguments() != null) {
-            LoginResponse.UserData userData = getArguments().getParcelable("userData");
+            userData = getArguments().getParcelable("userData");
             System.out.println("CourseFragment已获得"+userData.getEmail());
             unFinishCourse(0,10,Integer.parseInt(userData.getId()),recyclerUnFinishCourse,userData);
             addCourseBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,36 +86,36 @@ public class TeacherCourseFragment extends Fragment {
         return rootView;
     }
 
-    private void finishCourse(int current ,int size ,int userId)
-    {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TeacherService teacherService = retrofit.create(TeacherService.class);
-        Call<GetFinishClassResponse> call = teacherService.getFinishClass(current, size, userId);
-        call.enqueue(new Callback<GetFinishClassResponse>(){
-
-            @Override
-            public void onResponse(Call<GetFinishClassResponse> call, Response<GetFinishClassResponse> response) {
-                if (response.isSuccessful()){
-                    GetFinishClassResponse getFinishClassResponse = response.body();
-                    if (getFinishClassResponse != null && getFinishClassResponse.getCode() == 200) {
-                        System.out.println("当前教师课程请求数据为："+getFinishClassResponse.getData().toString());
-
-                    }
-                    else {
-                        System.out.println("错误码:"+getFinishClassResponse.getCode()+"原因:"+getFinishClassResponse.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetFinishClassResponse> call, Throwable t) {
-                System.out.println("请求失败：" + t.getMessage());
-            }
-        });
-    }
+//    private void finishCourse(int current ,int size ,int userId)
+//    {
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(Constants.BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        TeacherService teacherService = retrofit.create(TeacherService.class);
+//        Call<GetFinishClassResponse> call = teacherService.getFinishClass(current, size, userId);
+//        call.enqueue(new Callback<GetFinishClassResponse>(){
+//
+//            @Override
+//            public void onResponse(Call<GetFinishClassResponse> call, Response<GetFinishClassResponse> response) {
+//                if (response.isSuccessful()){
+//                    GetFinishClassResponse getFinishClassResponse = response.body();
+//                    if (getFinishClassResponse != null && getFinishClassResponse.getCode() == 200) {
+//                        System.out.println("当前教师课程请求数据为："+getFinishClassResponse.getData().toString());
+//
+//                    }
+//                    else {
+//                        System.out.println("错误码:"+getFinishClassResponse.getCode()+"原因:"+getFinishClassResponse.getMessage());
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GetFinishClassResponse> call, Throwable t) {
+//                System.out.println("请求失败：" + t.getMessage());
+//            }
+//        });
+//    }
     private void unFinishCourse(int current ,int size ,int userId ,RecyclerView recyclerView,LoginResponse.UserData userData)
     {
         Retrofit retrofit = new Retrofit.Builder()
@@ -150,5 +151,16 @@ public class TeacherCourseFragment extends Fragment {
                 System.out.println("请求失败：" + t.getMessage());
             }
         });
+    }
+    public void onResume() {
+        super.onResume();
+        System.out.println("页面重新加载...");
+        View rootView = getView();
+        if (rootView == null) {
+            return;
+        }
+        RecyclerView recyclerUnFinishCourse = rootView.findViewById(R.id.unFinishCourse);
+        recyclerUnFinishCourse.setLayoutManager(new LinearLayoutManager(getContext()));
+        unFinishCourse(0,10,Integer.parseInt(userData.getId()),recyclerUnFinishCourse,userData);
     }
 }

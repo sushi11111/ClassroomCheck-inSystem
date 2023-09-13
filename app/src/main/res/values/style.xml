@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--选中的样式-->
+    <!--导航栏选中的样式-->
     <style name="bottom_tab_title_active">
         <item name="android:textSize">12sp</item>
         <item name="android:paddingBottom">5dp</item>
@@ -8,7 +8,7 @@
         <item name="android:background">#ffffff</item>
     </style>
 
-    <!--没有选中的样式-->
+    <!--导航栏没有选中的样式-->
     <style name="bottom_tab_title_inactive">
         <item name="android:textSize">12sp</item>
         <item name="android:paddingTop">4dp</item>
@@ -16,4 +16,19 @@
 <!--        <item name="android:background">#ffffff</item>-->
     </style>
 
+<!--    对话按钮-->
+    <style name="DialogButtonStyle">
+        <!-- 按钮文本颜色 -->
+        <item name="android:textColor">#8d4bbb</item>
+        <!-- 按钮背景颜色 -->
+        <item name="android:background">#ffffff</item>
+    </style>
+
+    <style name="themePage" parent="android:Theme.Light.NoTitleBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/start_page2</item>
+        <item name="android:statusBarColor">@android:color/white</item>
+    </style>
 </resources>

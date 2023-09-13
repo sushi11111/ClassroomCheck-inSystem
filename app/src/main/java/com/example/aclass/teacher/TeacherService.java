@@ -6,8 +6,11 @@ import com.example.aclass.teacher.request.ChangeUserRequest;
 import com.example.aclass.teacher.request.CheckingRequest;
 import com.example.aclass.teacher.response.*;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.*;
+
+import java.util.Map;
 
 
 public interface TeacherService {
@@ -86,11 +89,13 @@ public interface TeacherService {
 
     @Headers({
             "Accept: application/json, text/plain, */*",
-            "Content-Type: application/json",
             "appId: "+ Constants.APP_ID,
-            "appSecret: "+Constants.APP_SECRET
+            "appSecret: "+Constants.APP_SECRET,
+            "Content-Type: application/json"
     })
     @POST("/member/sign/user/update")
     Call<ChangeUserResponse> changeUser(@Body ChangeUserRequest changeUserRequest);
+
+
 
 }

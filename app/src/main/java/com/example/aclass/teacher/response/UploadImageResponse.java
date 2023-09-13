@@ -11,7 +11,7 @@ public class UploadImageResponse {
 
     @SerializedName("data")
     private
-    String data;
+    Object data;
 
     public int getCode() {
         return code;
@@ -29,7 +29,7 @@ public class UploadImageResponse {
         this.message = message;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
