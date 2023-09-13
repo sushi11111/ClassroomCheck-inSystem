@@ -78,7 +78,6 @@ public class StudentCheckInFragment extends Fragment {
             System.out.println("StudentCheckInFragment已获得" + userData.getAppKey());
             // 在布局中显示数据
             // 进行网络请求和数据加载
-
             adapter = new StudentCheckInAdapter(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), userId);
             recyclerView.setAdapter(adapter);
 
@@ -102,19 +101,21 @@ public class StudentCheckInFragment extends Fragment {
             @Override
             public void onResponse(Call<CourseResponse> call, Response<CourseResponse> response) {
                 System.out.println(response.body().getMsg());
-                if (response.isSuccessful()) {
-                    selectedCourses.addAll(response.body().getData().getRecords());
+//                if (response.isSuccessful()){
+                if(response.body().getMsg().equals("成功"))
+                {
                     System.out.println("成功获得学生选课");
-                    System.out.println(selectedCourses.get(0).getCollegeName());
-                    System.out.println(selectedCourses.size());
-                    // 获得课程签到信息
-                    loadNoCourse(selectedCourses,retrofit,userId);
-                } else {
-                    System.out.println("获取学生选课失败response.isSuccessful");
-                    // 处理请求失败情况
+                    selectedCourses.addAll(response.body().getData().getRecords());
                 }
+//                        System.out.println(selectedCourses.get(0).getCollegeName());
+//                        System.out.println(selectedCourses.size());
+                // 未选课程
+                loadNoCourse(selectedCourses,retrofit,userId);
+//                } else {
+//                    System.out.println("获取学生选课失败");
+//                    // 处理请求失败情况
+//                }
             }
-
             @Override
             public void onFailure(Call<CourseResponse> call, Throwable t) {
                 System.out.println("获取学生选课失败");
@@ -143,7 +144,7 @@ public class StudentCheckInFragment extends Fragment {
                 }
                 @Override
                 public void onFailure(Call<CheckInResponse> call, Throwable t) {
-                    System.out.println("获取学生未签到课程失败response.isSuccessful");
+                    System.out.println("获取学生未选课程失败");
                 }
             });
         }
@@ -168,7 +169,7 @@ public class StudentCheckInFragment extends Fragment {
                 }
                 @Override
                 public void onFailure(Call<CheckInResponse> call, Throwable t) {
-                    System.out.println("获取学生未签到课程失败response.isSuccessful");
+                    System.out.println("获取学生已选课程失败");
                 }
             });
         }

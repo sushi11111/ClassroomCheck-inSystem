@@ -58,8 +58,8 @@ public class StudentCourseFragment extends Fragment {
         if (getArguments() != null) {
             LoginResponse.UserData userData = getArguments().getParcelable("userData");
             System.out.println("StudentCourses已获得" + userData.getAppKey());
-            // 在布局中显示数据
-            // 进行网络请求和数据加载
+
+            //要获取全部课程和学生选课
             loadCourses(userData.getId());
 
             adapter = new CourseAdapter(courseList,selectedCourses,Integer.parseInt(userData.getId()));
@@ -70,6 +70,7 @@ public class StudentCourseFragment extends Fragment {
         return view;
     }
 
+    //获取所有课程
     private void loadCourses(String userId) {
         // 创建 Retrofit 实例
         Retrofit retrofit = new Retrofit.Builder()
@@ -89,6 +90,8 @@ public class StudentCourseFragment extends Fragment {
                     System.out.println("获取全部课程成功");
                     courseList.addAll(response.body().getData().getRecords());
                     System.out.println(courseList.get(0).getCourseName());
+
+                    adapter.notifyDataSetChanged();
                     //加载学生选课列表
                     Integer userId_Int = Integer.parseInt(userId);
                     loadSelectedCourses(userId_Int, retrofit);
@@ -111,19 +114,17 @@ public class StudentCourseFragment extends Fragment {
         selectedCoursesCall.enqueue(new Callback<CourseResponse>() {
             @Override
             public void onResponse(Call<CourseResponse> call, Response<CourseResponse> response) {
-                System.out.println(response.body().getMsg());
-                if (response.isSuccessful()) {
+                //获取到有选课的
+                if (response.body().getMsg().equals("成功")) {
                     selectedCourses.addAll(response.body().getData().getRecords());
                     System.out.println("成功获得学生选课");
-                    System.out.println(selectedCourses.get(0).getCollegeName());
                     // 通知适配器数据已更改
                     adapter.notifyDataSetChanged();
                 } else {
-                    System.out.println("获取学生选课失败response.isSuccessful");
+                    System.out.println("获取学生选课失败，学生还没有选课");
                     // 处理请求失败情况
                 }
             }
-
             @Override
             public void onFailure(Call<CourseResponse> call, Throwable t) {
                 System.out.println("获取学生选课失败");
