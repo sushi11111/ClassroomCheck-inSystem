@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +49,9 @@ public class InfoFragment extends Fragment {
     private RadioGroup genderRadioGroup;
     private EditText phoneEditText;
     private EditText emailEditText;
+    private LoginResponse.UserData userData=null;
+
+    View rootView;
 
     public static InfoFragment newInstance(LoginResponse.UserData userData) {
         InfoFragment fragment = new InfoFragment();
@@ -64,7 +65,7 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // 使用 inflater.inflate() 方法创建并返回一个有效的 View 对象
-        View rootView = inflater.inflate(R.layout.fragment_information, container, false);
+        rootView = inflater.inflate(R.layout.fragment_information, container, false);
         //控件绑定
         ImageView avatar = rootView.findViewById(R.id.avatar);
         userName = rootView.findViewById(R.id.userName);
@@ -78,7 +79,7 @@ public class InfoFragment extends Fragment {
 
         // 获取传递的数据
         if (getArguments() != null) {
-            LoginResponse.UserData userData = getArguments().getParcelable("userData");
+            userData = getArguments().getParcelable("userData");
             System.out.println("InfoFragment已获得" + userData.getEmail());
             // 在布局中显示数据
             String avatarUrl = userData.getAvatar();
@@ -181,8 +182,10 @@ public class InfoFragment extends Fragment {
                             //发送修改的请求
                             //如果是空字符串要...
                             ChangeUserRequest changeUserRequest = new ChangeUserRequest(collegeName,email, gender,Long.parseLong(userData.getId()),Long.parseLong(idNumber),phone,realName,userName );
-                            changeUserInfo(changeUserRequest);
-                            // 改变页表显示的信息
+                            changeUserInfo(changeUserRequest,v);
+                            // 重新登陆
+                            dialog.dismiss();
+                            logout(v);
                         }
                     });
                     // 取消修改后的逻辑
@@ -201,7 +204,7 @@ public class InfoFragment extends Fragment {
         return rootView;
     }
 
-    private void changeUserInfo(ChangeUserRequest changeUserRequest)
+    private void changeUserInfo(ChangeUserRequest changeUserRequest,View v)
     {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -219,6 +222,20 @@ public class InfoFragment extends Fragment {
                     if (changeUserResponse != null && changeUserResponse.getCode() == 200) {
                         // 登录成功，处理逻辑
                         System.out.println("用户修改信息成功...");
+//                        userName.setText(userNameEditText.getText());
+//                        realName.setText(realNameEditText.getText());
+//                        idNumber.setText(idNumberEditText.getText());
+//                        collegeName.setText(collegeNameEditText.getText());
+//                        phone.setText(phoneEditText.getText());
+//                        email.setText(emailEditText.getText());
+//                        if(genderRadioGroup.getCheckedRadioButtonId()==R.id.btnWomen)
+//                        {
+//                            gender.setText("女");
+//                        }
+//                        else {
+//                            gender.setText("男");
+//                        }
+
 
                     } else {
                         //弹出错误提示框
@@ -238,6 +255,37 @@ public class InfoFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+    private void logout(View v)
+    {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(rootView.getContext());
+        builder.setTitle("TIP");
+        builder.setMessage("修改信息成功，请重新登录");
+
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(userData.getRoleId()==1){
+                    Intent teacher_intent = new Intent();
+                    teacher_intent.setClass(v.getContext(), LoginActivity.class);
+                    startActivity(teacher_intent);
+                }else{
+                    Intent student_intent = new Intent();
+                    student_intent.setClass(v.getContext(), LoginActivity.class);
+                    startActivity(student_intent);
+                }
+                dialogInterface.dismiss();
+            }
+        });
+
+        android.app.AlertDialog dialog = builder.create();
+
+        dialog.show();
+    }
 //    private void getAllCourse(int current ,int size)
 //    {
 //        Retrofit retrofit = new Retrofit.Builder()

@@ -69,9 +69,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GetUnFinishClassResponse.Record record = records.get(position);
-//        holder.courseName.setText(holder.courseName.getText()+record.getCourseName());
-//        holder.courseId.setText(holder.courseId.getText()+record.getCourseId());
-//        holder.collegeName.setText(holder.collegeName.getText()+record.getCollegeName());
 
         holder.courseName.setText(record.getCourseName());
         holder.courseId.setText(record.getCourseId());

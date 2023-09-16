@@ -280,36 +280,41 @@ public class AddCourseActivity extends AppCompatActivity {
     private void dialogAdd() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("TIP");
-        builder.setMessage("添加课程成功!");
+        builder.setMessage("确认要添加该课程吗？");
 
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                addCourse();
-                dialogInterface.dismiss();
+                addCourse(dialogInterface);
                 finish();
+            }
+        });
+        // 取消修改后的逻辑
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
             }
         });
 
         AlertDialog dialog = builder.create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                positiveButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
-                positiveButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-
-                Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-                negativeButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
-                negativeButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-            }
-        });
+//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialogInterface) {
+//                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//                positiveButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
+//                positiveButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+//
+//                Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+//                negativeButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
+//                negativeButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+//            }
+//        });
         dialog.show();
 
     }
 
-    private void addCourse()
+    private void addCourse(DialogInterface dialogInterface)
     {
         System.out.println("点击");
         String collegeName = collegeNameAdd.getText().toString();
@@ -337,13 +342,17 @@ public class AddCourseActivity extends AppCompatActivity {
                     if (addClassResponse != null && addClassResponse.getCode() == 200) {
                         // 注册成功，处理逻辑
                         System.out.println("教师增加课程成功");
+                        dialogInterface.dismiss();
                     } else {
                         // 注册失败 处理逻辑 服务器内部错误？？
                         System.out.println("教师增加课程失败  "+addClassResponse.getCode()+addClassResponse.getMessage());
+                        dialogInterface.dismiss();
+                        addFailure(addClassResponse.getMessage());
                     }
                 } else {
                     // 请求失败，处理逻辑
-                    System.out.println("请求失败");
+                    System.out.println("请求失败...");
+                    addFailure(response.message());
                 }
             }
 
@@ -353,6 +362,22 @@ public class AddCourseActivity extends AppCompatActivity {
                 System.out.println("请求失败：" + t.getMessage());
             }
         });
+    }
+    private void addFailure(String message)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("TIP");
+        builder.setMessage("添加失败！原因："+message);
+
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
 
