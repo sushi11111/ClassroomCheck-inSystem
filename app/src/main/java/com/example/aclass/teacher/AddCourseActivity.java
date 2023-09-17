@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.example.aclass.Constants;
+import com.example.aclass.Login.LoginActivity;
 import com.example.aclass.Login.LoginResponse;
 import com.example.aclass.R;
 import com.example.aclass.teacher.request.AddClassRequest;
@@ -103,7 +105,7 @@ public class AddCourseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // 处理 courseBtnAdd 的点击事件
                 // ...
-                dialogAdd();
+                dialogAdd(v);
             }
         });
 
@@ -121,7 +123,136 @@ public class AddCourseActivity extends AppCompatActivity {
             }
         });
     }
+    private void dialogAdd(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("TIP");
+        builder.setMessage("确认要添加该课程吗？");
 
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                System.out.println("开始增加...");
+                addCourse(dialog,v);
+                System.out.println("结束增加...");
+//                Intent teacher_intent = new Intent();
+//                teacher_intent.putExtra("userData", userData);
+//                teacher_intent.setClass(v.getContext(), TeacherMainActivity.class);
+//                startActivity(teacher_intent);
+            }
+        });
+        // 取消修改后的逻辑
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
+                positiveButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+
+                Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                negativeButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
+                negativeButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+            }
+        });
+        dialog.show();
+
+
+    }
+
+    private void addCourse(DialogInterface dialogInterface,View v )
+    {
+        System.out.println("点击");
+        String collegeName = collegeNameAdd.getText().toString();
+        String courseName = courseNameAdd.getText().toString();
+        String url = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/08/09/4bdf1f89-85a8-4d6c-9268-ff226c791e11.png";
+        String introduce = introduceAdd.getText().toString();
+        int startTime = Integer.parseInt(startTimeAdd.getText().toString());
+        int learnTime = Integer.parseInt(learnTimeAdd.getText().toString());
+        AddClassRequest addClassRequest = new AddClassRequest(collegeName,courseName,url,learnTime,introduce,userData.getRealName(),startTime,
+                Integer.parseInt(userData.getId()),userData.getUserName());
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        TeacherService teacherService = retrofit.create(TeacherService.class);
+        System.out.println("获取"+addClassRequest);
+        Call<AddClassResponse> call = teacherService.addClass(addClassRequest);
+        call.enqueue(new Callback<AddClassResponse>() {
+            @Override
+            public void onResponse(Call<AddClassResponse> call, Response<AddClassResponse> response) {
+                if (response.isSuccessful()) {
+                    AddClassResponse addClassResponse = response.body();
+                    if (addClassResponse != null && addClassResponse.getCode() == 200) {
+                        // 注册成功，处理逻辑
+                        System.out.println("教师增加课程成功");
+                        dialogInterface.dismiss();
+                        addSuccess(v);
+                    } else {
+                        // 注册失败 处理逻辑 服务器内部错误？？
+                        System.out.println("教师增加课程失败  "+addClassResponse.getCode()+addClassResponse.getMessage());
+                        dialogInterface.dismiss();
+                        addFailure(addClassResponse.getMessage(),v);
+                    }
+                } else {
+                    // 请求失败，处理逻辑
+                    System.out.println("请求失败...");
+                    dialogInterface.dismiss();
+                    addFailure(response.message(),v);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddClassResponse> call, Throwable t) {
+                // 网络错误，处理逻辑
+                System.out.println("请求失败：" + t.getMessage());
+            }
+        });
+    }
+    private void addFailure(String message,View v )
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("TIP");
+        builder.setMessage("添加失败！原因："+message);
+        System.out.println("失败对话...");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private void addSuccess(View v )
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("TIP");
+        builder.setMessage("添加成功!即将返回主页");
+        System.out.println("成功对话...");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent teacher_intent = new Intent();
+                teacher_intent.putExtra("userData", userData);
+                teacher_intent.setClass(v.getContext(), TeacherMainActivity.class);
+                startActivity(teacher_intent);
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     private void uploadImage(Uri imageUri)
     {
         Retrofit retrofit = new Retrofit.Builder()
@@ -277,107 +408,6 @@ public class AddCourseActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Image"), REQUEST_SELECT_IMAGE);
         System.out.println("选择完成...");
     }
-    private void dialogAdd() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("TIP");
-        builder.setMessage("确认要添加该课程吗？");
 
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                addCourse(dialogInterface);
-                finish();
-            }
-        });
-        // 取消修改后的逻辑
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-
-//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-//            @Override
-//            public void onShow(DialogInterface dialogInterface) {
-//                Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-//                positiveButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
-//                positiveButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-//
-//                Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-//                negativeButton.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.purple_500));
-//                negativeButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-//            }
-//        });
-        dialog.show();
-
-    }
-
-    private void addCourse(DialogInterface dialogInterface)
-    {
-        System.out.println("点击");
-        String collegeName = collegeNameAdd.getText().toString();
-        String courseName = courseNameAdd.getText().toString();
-        String url = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/08/09/4bdf1f89-85a8-4d6c-9268-ff226c791e11.png";
-        String introduce = introduceAdd.getText().toString();
-        int startTime = Integer.parseInt(startTimeAdd.getText().toString());
-        int learnTime = Integer.parseInt(learnTimeAdd.getText().toString());
-        AddClassRequest addClassRequest = new AddClassRequest(collegeName,courseName,url,learnTime,introduce,userData.getRealName(),startTime,
-                Integer.parseInt(userData.getId()),userData.getUserName());
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        TeacherService teacherService = retrofit.create(TeacherService.class);
-        System.out.println("获取"+addClassRequest);
-        Call<AddClassResponse> call = teacherService.addClass(addClassRequest);
-        call.enqueue(new Callback<AddClassResponse>() {
-            @Override
-            public void onResponse(Call<AddClassResponse> call, Response<AddClassResponse> response) {
-                if (response.isSuccessful()) {
-                    AddClassResponse addClassResponse = response.body();
-                    if (addClassResponse != null && addClassResponse.getCode() == 200) {
-                        // 注册成功，处理逻辑
-                        System.out.println("教师增加课程成功");
-                        dialogInterface.dismiss();
-                    } else {
-                        // 注册失败 处理逻辑 服务器内部错误？？
-                        System.out.println("教师增加课程失败  "+addClassResponse.getCode()+addClassResponse.getMessage());
-                        dialogInterface.dismiss();
-                        addFailure(addClassResponse.getMessage());
-                    }
-                } else {
-                    // 请求失败，处理逻辑
-                    System.out.println("请求失败...");
-                    addFailure(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AddClassResponse> call, Throwable t) {
-                // 网络错误，处理逻辑
-                System.out.println("请求失败：" + t.getMessage());
-            }
-        });
-    }
-    private void addFailure(String message)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("TIP");
-        builder.setMessage("添加失败！原因："+message);
-
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 }
 
